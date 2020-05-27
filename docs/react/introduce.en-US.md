@@ -107,7 +107,7 @@ import 'antd/dist/antd.css'; // or 'antd/dist/antd.less'
 ## Links
 
 - [Home page](/)
-- [Components](/components/overview/)
+- [Components](/components/overview)
 - [Ant Design Pro](https://pro.ant.design/)
 - [Change Log](/changelog)
 - [rc-components](http://react-component.github.io/)
