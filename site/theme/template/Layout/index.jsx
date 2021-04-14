@@ -8,10 +8,8 @@ import { setTwoToneColor } from '@ant-design/icons';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
 import 'moment/locale/zh-cn';
 import { ConfigProvider } from 'antd';
-import LogRocket from 'logrocket';
-import setupLogRocketReact from 'logrocket-react';
-// eslint-disable-next-line import/no-unresolved
-import zhCN from 'antd/es/locale/zh_CN';
+import { browserHistory } from 'bisheng/router';
+import zhCN from 'antd/lib/locale/zh_CN';
 import Header from './Header';
 import SiteContext from './SiteContext';
 import enLocale from '../../en-US';
@@ -49,15 +47,9 @@ if (typeof window !== 'undefined') {
       e.stopImmediatePropagation();
     }
   });
-
-  if (process.env.NODE_ENV === 'production') {
-    LogRocket.init('kpuw4z/ant-design');
-    setupLogRocketReact(LogRocket);
-  }
 }
 
 const RESPONSIVE_MOBILE = 768;
-const SITE_THEME_STORE_KEY = 'site-theme';
 
 // for dark.css timestamp to remove cache
 const timestamp = new Date().getTime();
@@ -73,6 +65,8 @@ const { switcher } = themeSwitcher(themeConfig);
 export default class Layout extends React.Component {
   static contextType = SiteContext;
 
+  isBeforeComponent = false;
+
   constructor(props) {
     super(props);
     const { pathname } = props.location;
@@ -80,38 +74,54 @@ export default class Layout extends React.Component {
 
     this.state = {
       appLocale,
-      theme:
-        typeof localStorage !== 'undefined'
-          ? localStorage.getItem(SITE_THEME_STORE_KEY) || 'default'
-          : 'default',
+      theme: 'default',
       setTheme: this.setTheme,
       direction: 'ltr',
       setIframeTheme: this.setIframeTheme,
     };
-
-    this.changeDirection = this.changeDirection.bind(this);
   }
 
   componentDidMount() {
-    const { theme } = this.state;
     const { location, router } = this.props;
-    router.listen(loc => {
+    router.listen(({ pathname, search }) => {
+      const { theme } = this.props.location.query;
       if (typeof window.ga !== 'undefined') {
-        window.ga('send', 'pageview', loc.pathname + loc.search);
+        window.ga('send', 'pageview', pathname + search);
       }
       // eslint-disable-next-line
       if (typeof window._hmt !== 'undefined') {
         // eslint-disable-next-line
-        window._hmt.push(['_trackPageview', loc.pathname + loc.search]);
+        window._hmt.push(['_trackPageview', pathname + search]);
       }
-      const { pathname } = loc;
       const componentPage = /^\/?components/.test(pathname);
+
       // only component page can use `dark` theme
       if (!componentPage) {
+        this.isBeforeComponent = false;
         this.setTheme('default', false);
+      } else if (theme && !this.isBeforeComponent) {
+        this.isBeforeComponent = true;
+        this.setTheme(theme, false);
       }
     });
-    this.setTheme(/^\/?components/.test(location.pathname) ? theme : 'default');
+
+    if (location.query.theme && /^\/?components/.test(location.pathname)) {
+      this.isBeforeComponent = true;
+      this.setTheme(location.query.theme, false);
+    } else {
+      this.isBeforeComponent = false;
+      this.setTheme('default', false);
+    }
+
+    if (location.query.direction) {
+      this.setState({
+        direction: location.query.direction,
+      });
+    } else {
+      this.setState({
+        direction: 'ltr',
+      });
+    }
 
     const nprogressHiddenStyle = document.getElementById('nprogress-style');
     if (nprogressHiddenStyle) {
@@ -148,7 +158,6 @@ export default class Layout extends React.Component {
           theme,
         },
       }),
-      '*',
     );
   };
 
@@ -178,11 +187,22 @@ export default class Layout extends React.Component {
     setTwoToneColor(iconTwoToneThemeMap[theme] || iconTwoToneThemeMap.default);
   };
 
-  changeDirection(direction) {
+  changeDirection = direction => {
     this.setState({
       direction,
     });
-  }
+    const { pathname, hash, query } = this.props.location;
+    if (direction === 'ltr') {
+      delete query.direction;
+    } else {
+      query.direction = 'rtl';
+    }
+    browserHistory.push({
+      pathname: `/${pathname}`,
+      query,
+      hash,
+    });
+  };
 
   render() {
     const { children, helmetContext = {}, ...restProps } = this.props;

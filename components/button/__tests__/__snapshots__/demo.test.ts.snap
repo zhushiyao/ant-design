@@ -47,7 +47,7 @@ Array [
 `;
 
 exports[`renders ./components/button/demo/block.md correctly 1`] = `
-<div>
+Array [
   <button
     class="ant-btn ant-btn-primary ant-btn-block"
     type="button"
@@ -55,7 +55,7 @@ exports[`renders ./components/button/demo/block.md correctly 1`] = `
     <span>
       Primary
     </span>
-  </button>
+  </button>,
   <button
     class="ant-btn ant-btn-block"
     type="button"
@@ -63,7 +63,7 @@ exports[`renders ./components/button/demo/block.md correctly 1`] = `
     <span>
       Default
     </span>
-  </button>
+  </button>,
   <button
     class="ant-btn ant-btn-dashed ant-btn-block"
     type="button"
@@ -71,7 +71,7 @@ exports[`renders ./components/button/demo/block.md correctly 1`] = `
     <span>
       Dashed
     </span>
-  </button>
+  </button>,
   <button
     class="ant-btn ant-btn-link ant-btn-block"
     type="button"
@@ -79,8 +79,8 @@ exports[`renders ./components/button/demo/block.md correctly 1`] = `
     <span>
       Link
     </span>
-  </button>
-</div>
+  </button>,
+]
 `;
 
 exports[`renders ./components/button/demo/danger.md correctly 1`] = `
@@ -110,18 +110,26 @@ Array [
     </span>
   </button>,
   <button
+    class="ant-btn ant-btn-text ant-btn-dangerous"
+    type="button"
+  >
+    <span>
+      Text
+    </span>
+  </button>,
+  <button
     class="ant-btn ant-btn-link ant-btn-dangerous"
     type="button"
   >
     <span>
-      link
+      Link
     </span>
   </button>,
 ]
 `;
 
 exports[`renders ./components/button/demo/disabled.md correctly 1`] = `
-<div>
+Array [
   <button
     class="ant-btn ant-btn-primary"
     type="button"
@@ -129,7 +137,7 @@ exports[`renders ./components/button/demo/disabled.md correctly 1`] = `
     <span>
       Primary
     </span>
-  </button>
+  </button>,
   <button
     class="ant-btn ant-btn-primary"
     disabled=""
@@ -138,8 +146,8 @@ exports[`renders ./components/button/demo/disabled.md correctly 1`] = `
     <span>
       Primary(disabled)
     </span>
-  </button>
-  <br />
+  </button>,
+  <br />,
   <button
     class="ant-btn"
     type="button"
@@ -147,7 +155,7 @@ exports[`renders ./components/button/demo/disabled.md correctly 1`] = `
     <span>
       Default
     </span>
-  </button>
+  </button>,
   <button
     class="ant-btn"
     disabled=""
@@ -156,8 +164,8 @@ exports[`renders ./components/button/demo/disabled.md correctly 1`] = `
     <span>
       Default(disabled)
     </span>
-  </button>
-  <br />
+  </button>,
+  <br />,
   <button
     class="ant-btn ant-btn-dashed"
     type="button"
@@ -165,7 +173,7 @@ exports[`renders ./components/button/demo/disabled.md correctly 1`] = `
     <span>
       Dashed
     </span>
-  </button>
+  </button>,
   <button
     class="ant-btn ant-btn-dashed"
     disabled=""
@@ -174,26 +182,8 @@ exports[`renders ./components/button/demo/disabled.md correctly 1`] = `
     <span>
       Dashed(disabled)
     </span>
-  </button>
-  <br />
-  <button
-    class="ant-btn ant-btn-link"
-    type="button"
-  >
-    <span>
-      Link
-    </span>
-  </button>
-  <button
-    class="ant-btn ant-btn-link"
-    disabled=""
-    type="button"
-  >
-    <span>
-      Link(disabled)
-    </span>
-  </button>
-  <br />
+  </button>,
+  <br />,
   <button
     class="ant-btn ant-btn-text"
     type="button"
@@ -201,7 +191,7 @@ exports[`renders ./components/button/demo/disabled.md correctly 1`] = `
     <span>
       Text
     </span>
-  </button>
+  </button>,
   <button
     class="ant-btn ant-btn-text"
     disabled=""
@@ -210,26 +200,26 @@ exports[`renders ./components/button/demo/disabled.md correctly 1`] = `
     <span>
       Text(disabled)
     </span>
-  </button>
-  <br />
+  </button>,
+  <br />,
   <button
-    class="ant-btn ant-btn-link ant-btn-dangerous"
+    class="ant-btn ant-btn-link"
     type="button"
   >
     <span>
-      Danger Link
+      Link
     </span>
-  </button>
+  </button>,
   <button
-    class="ant-btn ant-btn-link ant-btn-dangerous"
+    class="ant-btn ant-btn-link"
     disabled=""
     type="button"
   >
     <span>
-      Danger Link(disabled)
+      Link(disabled)
     </span>
-  </button>
-  <br />
+  </button>,
+  <br />,
   <button
     class="ant-btn ant-btn-dangerous"
     type="button"
@@ -237,7 +227,7 @@ exports[`renders ./components/button/demo/disabled.md correctly 1`] = `
     <span>
       Danger Default
     </span>
-  </button>
+  </button>,
   <button
     class="ant-btn ant-btn-dangerous"
     disabled=""
@@ -246,7 +236,43 @@ exports[`renders ./components/button/demo/disabled.md correctly 1`] = `
     <span>
       Danger Default(disabled)
     </span>
-  </button>
+  </button>,
+  <br />,
+  <button
+    class="ant-btn ant-btn-text ant-btn-dangerous"
+    type="button"
+  >
+    <span>
+      Danger Text
+    </span>
+  </button>,
+  <button
+    class="ant-btn ant-btn-text ant-btn-dangerous"
+    disabled=""
+    type="button"
+  >
+    <span>
+      Danger Text(disabled)
+    </span>
+  </button>,
+  <br />,
+  <button
+    class="ant-btn ant-btn-link ant-btn-dangerous"
+    type="button"
+  >
+    <span>
+      Danger Link
+    </span>
+  </button>,
+  <button
+    class="ant-btn ant-btn-link ant-btn-dangerous"
+    disabled=""
+    type="button"
+  >
+    <span>
+      Danger Link(disabled)
+    </span>
+  </button>,
   <div
     class="site-button-ghost-wrapper"
   >
@@ -267,8 +293,8 @@ exports[`renders ./components/button/demo/disabled.md correctly 1`] = `
         Ghost(disabled)
       </span>
     </button>
-  </div>
-</div>
+  </div>,
+]
 `;
 
 exports[`renders ./components/button/demo/ghost.md correctly 1`] = `
@@ -296,30 +322,14 @@ exports[`renders ./components/button/demo/ghost.md correctly 1`] = `
     type="button"
   >
     <span>
-      link
-    </span>
-  </button>
-  <button
-    class="ant-btn ant-btn-text ant-btn-background-ghost"
-    type="button"
-  >
-    <span>
-      Text Button
-    </span>
-  </button>
-  <button
-    class="ant-btn ant-btn-link ant-btn-background-ghost"
-    type="button"
-  >
-    <span>
-      link
+      Dashed
     </span>
   </button>
 </div>
 `;
 
 exports[`renders ./components/button/demo/icon.md correctly 1`] = `
-<div>
+Array [
   <button
     class="ant-btn ant-btn-primary ant-btn-circle ant-btn-icon-only"
     type="button"
@@ -331,7 +341,6 @@ exports[`renders ./components/button/demo/icon.md correctly 1`] = `
     >
       <svg
         aria-hidden="true"
-        class=""
         data-icon="search"
         fill="currentColor"
         focusable="false"
@@ -344,7 +353,7 @@ exports[`renders ./components/button/demo/icon.md correctly 1`] = `
         />
       </svg>
     </span>
-  </button>
+  </button>,
   <button
     class="ant-btn ant-btn-primary ant-btn-circle"
     type="button"
@@ -352,7 +361,7 @@ exports[`renders ./components/button/demo/icon.md correctly 1`] = `
     <span>
       A
     </span>
-  </button>
+  </button>,
   <button
     class="ant-btn ant-btn-primary"
     type="button"
@@ -364,7 +373,6 @@ exports[`renders ./components/button/demo/icon.md correctly 1`] = `
     >
       <svg
         aria-hidden="true"
-        class=""
         data-icon="search"
         fill="currentColor"
         focusable="false"
@@ -380,7 +388,7 @@ exports[`renders ./components/button/demo/icon.md correctly 1`] = `
     <span>
       Search
     </span>
-  </button>
+  </button>,
   <button
     class="ant-btn ant-btn-circle ant-btn-icon-only"
     type="button"
@@ -392,7 +400,6 @@ exports[`renders ./components/button/demo/icon.md correctly 1`] = `
     >
       <svg
         aria-hidden="true"
-        class=""
         data-icon="search"
         fill="currentColor"
         focusable="false"
@@ -405,7 +412,7 @@ exports[`renders ./components/button/demo/icon.md correctly 1`] = `
         />
       </svg>
     </span>
-  </button>
+  </button>,
   <button
     class="ant-btn"
     type="button"
@@ -417,7 +424,6 @@ exports[`renders ./components/button/demo/icon.md correctly 1`] = `
     >
       <svg
         aria-hidden="true"
-        class=""
         data-icon="search"
         fill="currentColor"
         focusable="false"
@@ -433,8 +439,8 @@ exports[`renders ./components/button/demo/icon.md correctly 1`] = `
     <span>
       Search
     </span>
-  </button>
-  <br />
+  </button>,
+  <br />,
   <button
     class="ant-btn ant-btn-circle ant-btn-icon-only"
     type="button"
@@ -446,7 +452,6 @@ exports[`renders ./components/button/demo/icon.md correctly 1`] = `
     >
       <svg
         aria-hidden="true"
-        class=""
         data-icon="search"
         fill="currentColor"
         focusable="false"
@@ -459,7 +464,7 @@ exports[`renders ./components/button/demo/icon.md correctly 1`] = `
         />
       </svg>
     </span>
-  </button>
+  </button>,
   <button
     class="ant-btn"
     type="button"
@@ -471,7 +476,6 @@ exports[`renders ./components/button/demo/icon.md correctly 1`] = `
     >
       <svg
         aria-hidden="true"
-        class=""
         data-icon="search"
         fill="currentColor"
         focusable="false"
@@ -487,7 +491,7 @@ exports[`renders ./components/button/demo/icon.md correctly 1`] = `
     <span>
       Search
     </span>
-  </button>
+  </button>,
   <button
     class="ant-btn ant-btn-dashed ant-btn-circle ant-btn-icon-only"
     type="button"
@@ -499,7 +503,6 @@ exports[`renders ./components/button/demo/icon.md correctly 1`] = `
     >
       <svg
         aria-hidden="true"
-        class=""
         data-icon="search"
         fill="currentColor"
         focusable="false"
@@ -512,7 +515,7 @@ exports[`renders ./components/button/demo/icon.md correctly 1`] = `
         />
       </svg>
     </span>
-  </button>
+  </button>,
   <button
     class="ant-btn ant-btn-dashed"
     type="button"
@@ -524,7 +527,6 @@ exports[`renders ./components/button/demo/icon.md correctly 1`] = `
     >
       <svg
         aria-hidden="true"
-        class=""
         data-icon="search"
         fill="currentColor"
         focusable="false"
@@ -540,12 +542,12 @@ exports[`renders ./components/button/demo/icon.md correctly 1`] = `
     <span>
       Search
     </span>
-  </button>
-</div>
+  </button>,
+]
 `;
 
 exports[`renders ./components/button/demo/legacy-group.md correctly 1`] = `
-<div>
+Array [
   <div>
     <div
       class="ant-btn-group ant-btn-group-sm"
@@ -583,7 +585,6 @@ exports[`renders ./components/button/demo/legacy-group.md correctly 1`] = `
           >
             <svg
               aria-hidden="true"
-              class=""
               data-icon="download"
               fill="currentColor"
               focusable="false"
@@ -609,7 +610,6 @@ exports[`renders ./components/button/demo/legacy-group.md correctly 1`] = `
         >
           <svg
             aria-hidden="true"
-            class=""
             data-icon="download"
             fill="currentColor"
             focusable="false"
@@ -624,8 +624,8 @@ exports[`renders ./components/button/demo/legacy-group.md correctly 1`] = `
         </span>
       </button>
     </div>
-  </div>
-  <br />
+  </div>,
+  <br />,
   <div>
     <div
       class="ant-btn-group"
@@ -663,7 +663,6 @@ exports[`renders ./components/button/demo/legacy-group.md correctly 1`] = `
           >
             <svg
               aria-hidden="true"
-              class=""
               data-icon="download"
               fill="currentColor"
               focusable="false"
@@ -689,7 +688,6 @@ exports[`renders ./components/button/demo/legacy-group.md correctly 1`] = `
         >
           <svg
             aria-hidden="true"
-            class=""
             data-icon="download"
             fill="currentColor"
             focusable="false"
@@ -704,8 +702,8 @@ exports[`renders ./components/button/demo/legacy-group.md correctly 1`] = `
         </span>
       </button>
     </div>
-  </div>
-  <br />
+  </div>,
+  <br />,
   <div>
     <div
       class="ant-btn-group ant-btn-group-lg"
@@ -743,7 +741,6 @@ exports[`renders ./components/button/demo/legacy-group.md correctly 1`] = `
           >
             <svg
               aria-hidden="true"
-              class=""
               data-icon="download"
               fill="currentColor"
               focusable="false"
@@ -769,7 +766,6 @@ exports[`renders ./components/button/demo/legacy-group.md correctly 1`] = `
         >
           <svg
             aria-hidden="true"
-            class=""
             data-icon="download"
             fill="currentColor"
             focusable="false"
@@ -784,8 +780,8 @@ exports[`renders ./components/button/demo/legacy-group.md correctly 1`] = `
         </span>
       </button>
     </div>
-  </div>
-</div>
+  </div>,
+]
 `;
 
 exports[`renders ./components/button/demo/loading.md correctly 1`] = `
@@ -799,12 +795,11 @@ Array [
     >
       <span
         aria-label="loading"
-        class="anticon anticon-loading"
+        class="anticon anticon-loading anticon-spin"
         role="img"
       >
         <svg
           aria-hidden="true"
-          class="anticon-spin"
           data-icon="loading"
           fill="currentColor"
           focusable="false"
@@ -831,12 +826,11 @@ Array [
     >
       <span
         aria-label="loading"
-        class="anticon anticon-loading"
+        class="anticon anticon-loading anticon-spin"
         role="img"
       >
         <svg
           aria-hidden="true"
-          class="anticon-spin"
           data-icon="loading"
           fill="currentColor"
           focusable="false"
@@ -863,12 +857,11 @@ Array [
     >
       <span
         aria-label="loading"
-        class="anticon anticon-loading"
+        class="anticon anticon-loading anticon-spin"
         role="img"
       >
         <svg
           aria-hidden="true"
-          class="anticon-spin"
           data-icon="loading"
           fill="currentColor"
           focusable="false"
@@ -903,7 +896,6 @@ Array [
     >
       <svg
         aria-hidden="true"
-        class=""
         data-icon="poweroff"
         fill="currentColor"
         focusable="false"
@@ -931,7 +923,6 @@ Array [
     >
       <svg
         aria-hidden="true"
-        class=""
         data-icon="poweroff"
         fill="currentColor"
         focusable="false"
@@ -949,7 +940,7 @@ Array [
 `;
 
 exports[`renders ./components/button/demo/multiple.md correctly 1`] = `
-<div>
+Array [
   <button
     class="ant-btn ant-btn-primary"
     type="button"
@@ -957,7 +948,7 @@ exports[`renders ./components/button/demo/multiple.md correctly 1`] = `
     <span>
       primary
     </span>
-  </button>
+  </button>,
   <button
     class="ant-btn"
     type="button"
@@ -965,40 +956,48 @@ exports[`renders ./components/button/demo/multiple.md correctly 1`] = `
     <span>
       secondary
     </span>
-  </button>
-  <button
-    class="ant-btn ant-dropdown-trigger"
-    type="button"
+  </button>,
+  <div
+    class="ant-btn-group ant-dropdown-button"
   >
-    <span>
-      Actions 
-    </span>
-    <span
-      aria-label="down"
-      class="anticon anticon-down"
-      role="img"
+    <button
+      class="ant-btn ant-btn-default"
+      type="button"
     >
-      <svg
-        aria-hidden="true"
-        class=""
-        data-icon="down"
-        fill="currentColor"
-        focusable="false"
-        height="1em"
-        viewBox="64 64 896 896"
-        width="1em"
+      <span>
+        Actions
+      </span>
+    </button>
+    <button
+      class="ant-btn ant-btn-default ant-btn-icon-only ant-dropdown-trigger"
+      type="button"
+    >
+      <span
+        aria-label="ellipsis"
+        class="anticon anticon-ellipsis"
+        role="img"
       >
-        <path
-          d="M884 256h-75c-5.1 0-9.9 2.5-12.9 6.6L512 654.2 227.9 262.6c-3-4.1-7.8-6.6-12.9-6.6h-75c-6.5 0-10.3 7.4-6.5 12.7l352.6 486.1c12.8 17.6 39 17.6 51.7 0l352.6-486.1c3.9-5.3.1-12.7-6.4-12.7z"
-        />
-      </svg>
-    </span>
-  </button>
-</div>
+        <svg
+          aria-hidden="true"
+          data-icon="ellipsis"
+          fill="currentColor"
+          focusable="false"
+          height="1em"
+          viewBox="64 64 896 896"
+          width="1em"
+        >
+          <path
+            d="M176 511a56 56 0 10112 0 56 56 0 10-112 0zm280 0a56 56 0 10112 0 56 56 0 10-112 0zm280 0a56 56 0 10112 0 56 56 0 10-112 0z"
+          />
+        </svg>
+      </span>
+    </button>
+  </div>,
+]
 `;
 
 exports[`renders ./components/button/demo/size.md correctly 1`] = `
-<div>
+Array [
   <div
     class="ant-radio-group ant-radio-group-outline"
   >
@@ -1060,9 +1059,9 @@ exports[`renders ./components/button/demo/size.md correctly 1`] = `
         Small
       </span>
     </label>
-  </div>
-  <br />
-  <br />
+  </div>,
+  <br />,
+  <br />,
   <button
     class="ant-btn ant-btn-primary ant-btn-lg"
     type="button"
@@ -1070,7 +1069,7 @@ exports[`renders ./components/button/demo/size.md correctly 1`] = `
     <span>
       Primary
     </span>
-  </button>
+  </button>,
   <button
     class="ant-btn ant-btn-lg"
     type="button"
@@ -1078,7 +1077,7 @@ exports[`renders ./components/button/demo/size.md correctly 1`] = `
     <span>
       Default
     </span>
-  </button>
+  </button>,
   <button
     class="ant-btn ant-btn-dashed ant-btn-lg"
     type="button"
@@ -1086,8 +1085,8 @@ exports[`renders ./components/button/demo/size.md correctly 1`] = `
     <span>
       Dashed
     </span>
-  </button>
-  <br />
+  </button>,
+  <br />,
   <button
     class="ant-btn ant-btn-link ant-btn-lg"
     type="button"
@@ -1095,8 +1094,8 @@ exports[`renders ./components/button/demo/size.md correctly 1`] = `
     <span>
       Link
     </span>
-  </button>
-  <br />
+  </button>,
+  <br />,
   <button
     class="ant-btn ant-btn-primary ant-btn-lg ant-btn-icon-only"
     type="button"
@@ -1108,7 +1107,6 @@ exports[`renders ./components/button/demo/size.md correctly 1`] = `
     >
       <svg
         aria-hidden="true"
-        class=""
         data-icon="download"
         fill="currentColor"
         focusable="false"
@@ -1121,7 +1119,7 @@ exports[`renders ./components/button/demo/size.md correctly 1`] = `
         />
       </svg>
     </span>
-  </button>
+  </button>,
   <button
     class="ant-btn ant-btn-primary ant-btn-circle ant-btn-lg ant-btn-icon-only"
     type="button"
@@ -1133,7 +1131,6 @@ exports[`renders ./components/button/demo/size.md correctly 1`] = `
     >
       <svg
         aria-hidden="true"
-        class=""
         data-icon="download"
         fill="currentColor"
         focusable="false"
@@ -1146,7 +1143,7 @@ exports[`renders ./components/button/demo/size.md correctly 1`] = `
         />
       </svg>
     </span>
-  </button>
+  </button>,
   <button
     class="ant-btn ant-btn-primary ant-btn-round ant-btn-lg ant-btn-icon-only"
     type="button"
@@ -1158,7 +1155,6 @@ exports[`renders ./components/button/demo/size.md correctly 1`] = `
     >
       <svg
         aria-hidden="true"
-        class=""
         data-icon="download"
         fill="currentColor"
         focusable="false"
@@ -1171,7 +1167,7 @@ exports[`renders ./components/button/demo/size.md correctly 1`] = `
         />
       </svg>
     </span>
-  </button>
+  </button>,
   <button
     class="ant-btn ant-btn-primary ant-btn-round ant-btn-lg"
     type="button"
@@ -1183,7 +1179,6 @@ exports[`renders ./components/button/demo/size.md correctly 1`] = `
     >
       <svg
         aria-hidden="true"
-        class=""
         data-icon="download"
         fill="currentColor"
         focusable="false"
@@ -1199,7 +1194,7 @@ exports[`renders ./components/button/demo/size.md correctly 1`] = `
     <span>
       Download
     </span>
-  </button>
+  </button>,
   <button
     class="ant-btn ant-btn-primary ant-btn-lg"
     type="button"
@@ -1211,7 +1206,6 @@ exports[`renders ./components/button/demo/size.md correctly 1`] = `
     >
       <svg
         aria-hidden="true"
-        class=""
         data-icon="download"
         fill="currentColor"
         focusable="false"
@@ -1227,6 +1221,6 @@ exports[`renders ./components/button/demo/size.md correctly 1`] = `
     <span>
       Download
     </span>
-  </button>
-</div>
+  </button>,
+]
 `;

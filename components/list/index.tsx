@@ -7,7 +7,6 @@ import { RenderEmptyHandler, ConfigContext } from '../config-provider';
 import Pagination, { PaginationConfig } from '../pagination';
 import { Row } from '../grid';
 import Item from './Item';
-import { cloneElement } from '../_util/reactNode';
 
 export { ListItemProps, ListItemMetaProps } from './Item';
 
@@ -102,14 +101,12 @@ function List<T>({
 
   const keys: { [key: string]: string } = {};
 
-  const triggerPaginationEvent = (eventName: string) => {
-    return (page: number, pageSize: number) => {
-      setPaginationCurrent(page);
-      setPaginationSize(pageSize);
-      if (pagination && (pagination as any)[eventName]) {
-        (pagination as any)[eventName](page, pageSize);
-      }
-    };
+  const triggerPaginationEvent = (eventName: string) => (page: number, pageSize: number) => {
+    setPaginationCurrent(page);
+    setPaginationSize(pageSize);
+    if (pagination && (pagination as any)[eventName]) {
+      (pagination as any)[eventName](page, pageSize);
+    }
   };
 
   const onPaginationChange = triggerPaginationEvent('onChange');
@@ -138,17 +135,13 @@ function List<T>({
     return renderItem(item, index);
   };
 
-  const isSomethingAfterLastItem = () => {
-    return !!(loadMore || pagination || footer);
-  };
+  const isSomethingAfterLastItem = () => !!(loadMore || pagination || footer);
 
-  const renderEmptyFunc = (prefixCls: string, renderEmptyHandler: RenderEmptyHandler) => {
-    return (
-      <div className={`${prefixCls}-empty-text`}>
-        {(locale && locale.emptyText) || renderEmptyHandler('List')}
-      </div>
-    );
-  };
+  const renderEmptyFunc = (prefixCls: string, renderEmptyHandler: RenderEmptyHandler) => (
+    <div className={`${prefixCls}-empty-text`}>
+      {(locale && locale.emptyText) || renderEmptyHandler('List')}
+    </div>
+  );
 
   const prefixCls = getPrefixCls('list', customizePrefixCls);
   let loadingProp = loading;
@@ -173,16 +166,20 @@ function List<T>({
       break;
   }
 
-  const classString = classNames(prefixCls, className, {
-    [`${prefixCls}-vertical`]: itemLayout === 'vertical',
-    [`${prefixCls}-${sizeCls}`]: sizeCls,
-    [`${prefixCls}-split`]: split,
-    [`${prefixCls}-bordered`]: bordered,
-    [`${prefixCls}-loading`]: isLoading,
-    [`${prefixCls}-grid`]: grid,
-    [`${prefixCls}-something-after-last-item`]: isSomethingAfterLastItem(),
-    [`${prefixCls}-rtl`]: direction === 'rtl',
-  });
+  const classString = classNames(
+    prefixCls,
+    {
+      [`${prefixCls}-vertical`]: itemLayout === 'vertical',
+      [`${prefixCls}-${sizeCls}`]: sizeCls,
+      [`${prefixCls}-split`]: split,
+      [`${prefixCls}-bordered`]: bordered,
+      [`${prefixCls}-loading`]: isLoading,
+      [`${prefixCls}-grid`]: !!grid,
+      [`${prefixCls}-something-after-last-item`]: isSomethingAfterLastItem(),
+      [`${prefixCls}-rtl`]: direction === 'rtl',
+    },
+    className,
+  );
 
   const paginationProps = {
     ...defaultPaginationProps,
@@ -244,23 +241,15 @@ function List<T>({
   let childrenContent = isLoading && <div style={{ minHeight: 53 }} />;
   if (splitDataSource.length > 0) {
     const items = splitDataSource.map((item: any, index: number) => renderInnerItem(item, index));
-    const childrenList = React.Children.map(items, (child: any, index) =>
-      cloneElement(
-        child,
-        grid
-          ? {
-              key: keys[index],
-              colStyle,
-            }
-          : {
-              key: keys[index],
-            },
-      ),
-    );
+    const childrenList = React.Children.map(items, (child: any, index) => (
+      <div key={keys[index]} style={colStyle}>
+        {child}
+      </div>
+    ));
     childrenContent = grid ? (
       <Row gutter={grid.gutter}>{childrenList}</Row>
     ) : (
-      <ul className={`${prefixCls}-items`}>{childrenList}</ul>
+      <ul className={`${prefixCls}-items`}>{items}</ul>
     );
   } else if (!children && !isLoading) {
     childrenContent = renderEmptyFunc(prefixCls, renderEmpty);

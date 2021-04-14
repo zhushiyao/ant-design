@@ -1,6 +1,7 @@
 import React from 'react';
 import { mount } from 'enzyme';
-import ConfigProvider from '..';
+import { SmileOutlined } from '@ant-design/icons';
+import ConfigProvider, { ConfigContext } from '..';
 import Button from '../../button';
 import Table from '../../table';
 import Input from '../../input';
@@ -56,6 +57,17 @@ describe('ConfigProvider', () => {
     expect(wrapper.find('button').props().className).toEqual('bamboo-btn');
   });
 
+  it('iconPrefixCls', () => {
+    const wrapper = mount(
+      <ConfigProvider iconPrefixCls="bamboo">
+        <SmileOutlined />
+      </ConfigProvider>,
+    );
+
+    expect(wrapper.find('[role="img"]').hasClass('bamboo')).toBeTruthy();
+    expect(wrapper.find('[role="img"]').hasClass('bamboo-smile')).toBeTruthy();
+  });
+
   it('input autoComplete', () => {
     const wrapper = mount(
       <ConfigProvider input={{ autoComplete: 'off' }}>
@@ -64,5 +76,19 @@ describe('ConfigProvider', () => {
     );
 
     expect(wrapper.find('input').props().autoComplete).toEqual('off');
+  });
+
+  it('render empty', () => {
+    const App = () => {
+      const { renderEmpty } = React.useContext(ConfigContext);
+      return renderEmpty();
+    };
+    const wrapper = mount(
+      <ConfigProvider>
+        <App />
+      </ConfigProvider>,
+    );
+
+    expect(wrapper).toMatchRenderedSnapshot();
   });
 });

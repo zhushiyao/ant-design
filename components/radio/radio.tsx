@@ -1,33 +1,25 @@
 import * as React from 'react';
 import RcCheckbox from 'rc-checkbox';
 import classNames from 'classnames';
-import RadioGroup from './group';
-import RadioButton from './radioButton';
+import { composeRef } from 'rc-util/lib/ref';
 import { RadioProps, RadioChangeEvent } from './interface';
 import { ConfigContext } from '../config-provider';
 import RadioGroupContext from './context';
-import { composeRef } from '../_util/ref';
+import devWarning from '../_util/devWarning';
 
-interface CompoundedComponent
-  extends React.ForwardRefExoticComponent<RadioProps & React.RefAttributes<HTMLElement>> {
-  Group: typeof RadioGroup;
-  Button: typeof RadioButton;
-}
-
-const InternalRadio: React.ForwardRefRenderFunction<unknown, RadioProps> = (props, ref) => {
+const InternalRadio: React.ForwardRefRenderFunction<HTMLElement, RadioProps> = (props, ref) => {
   const context = React.useContext(RadioGroupContext);
   const { getPrefixCls, direction } = React.useContext(ConfigContext);
   const innerRef = React.useRef<HTMLElement>();
   const mergedRef = composeRef(ref, innerRef);
 
-  const onChange = (e: RadioChangeEvent) => {
-    if (props.onChange) {
-      props.onChange(e);
-    }
+  React.useEffect(() => {
+    devWarning(!('optionType' in props), 'Radio', '`optionType` is only support in Radio.Group.');
+  }, []);
 
-    if (context?.onChange) {
-      context.onChange(e);
-    }
+  const onChange = (e: RadioChangeEvent) => {
+    props.onChange?.(e);
+    context?.onChange?.(e);
   };
 
   const { prefixCls: customizePrefixCls, className, children, style, ...restProps } = props;
@@ -39,12 +31,15 @@ const InternalRadio: React.ForwardRefRenderFunction<unknown, RadioProps> = (prop
     radioProps.checked = props.value === context.value;
     radioProps.disabled = props.disabled || context.disabled;
   }
-  const wrapperClassString = classNames(className, {
-    [`${prefixCls}-wrapper`]: true,
-    [`${prefixCls}-wrapper-checked`]: radioProps.checked,
-    [`${prefixCls}-wrapper-disabled`]: radioProps.disabled,
-    [`${prefixCls}-wrapper-rtl`]: direction === 'rtl',
-  });
+  const wrapperClassString = classNames(
+    `${prefixCls}-wrapper`,
+    {
+      [`${prefixCls}-wrapper-checked`]: radioProps.checked,
+      [`${prefixCls}-wrapper-disabled`]: radioProps.disabled,
+      [`${prefixCls}-wrapper-rtl`]: direction === 'rtl',
+    },
+    className,
+  );
 
   return (
     // eslint-disable-next-line jsx-a11y/label-has-associated-control
@@ -54,16 +49,16 @@ const InternalRadio: React.ForwardRefRenderFunction<unknown, RadioProps> = (prop
       onMouseEnter={props.onMouseEnter}
       onMouseLeave={props.onMouseLeave}
     >
-      <RcCheckbox {...radioProps} prefixCls={prefixCls} ref={mergedRef as any} />
+      <RcCheckbox {...radioProps} prefixCls={prefixCls} ref={mergedRef} />
       {children !== undefined ? <span>{children}</span> : null}
     </label>
   );
 };
 
-const Radio = React.forwardRef<unknown, RadioProps>(InternalRadio) as CompoundedComponent;
+const Radio = React.forwardRef<unknown, RadioProps>(InternalRadio);
+
 Radio.displayName = 'Radio';
-Radio.Group = RadioGroup;
-Radio.Button = RadioButton;
+
 Radio.defaultProps = {
   type: 'radio',
 };

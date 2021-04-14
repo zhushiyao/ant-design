@@ -17,11 +17,15 @@
       border-left: 0;
       border-radius: @border-radius-base 0 0 @border-radius-base;
     }
+
+    .@{input-number-prefix-cls}-rtl.@{input-number-prefix-cls}-borderless & {
+      border-right-width: 0;
+    }
   }
 
   &-input {
     .@{input-number-prefix-cls}-rtl & {
-      direction: rtl;
+      direction: ltr;
       text-align: right;
     }
   }

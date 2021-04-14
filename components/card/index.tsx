@@ -1,6 +1,6 @@
 import * as React from 'react';
 import classNames from 'classnames';
-import omit from 'omit.js';
+import omit from 'rc-util/lib/omit';
 import Grid from './Grid';
 import Meta from './Meta';
 import Tabs, { TabsProps } from '../tabs';
@@ -57,7 +57,7 @@ export interface CardProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 't
   tabProps?: TabsProps;
 }
 
-interface CardInterface extends React.FC<CardProps> {
+export interface CardInterface extends React.FC<CardProps> {
   Grid: typeof Grid;
   Meta: typeof Meta;
 }
@@ -67,9 +67,7 @@ const Card: CardInterface = props => {
   const size = React.useContext(SizeContext);
 
   const onTabChange = (key: string) => {
-    if (props.onTabChange) {
-      props.onTabChange(key);
-    }
+    props.onTabChange?.(key);
   };
 
   const isContainGrid = () => {
@@ -110,47 +108,29 @@ const Card: CardInterface = props => {
   const loadingBlockStyle =
     bodyStyle.padding === 0 || bodyStyle.padding === '0px' ? { padding: 24 } : undefined;
 
+  const block = <div className={`${prefixCls}-loading-block`} />;
+
   const loadingBlock = (
     <div className={`${prefixCls}-loading-content`} style={loadingBlockStyle}>
       <Row gutter={8}>
-        <Col span={22}>
-          <div className={`${prefixCls}-loading-block`} />
-        </Col>
+        <Col span={22}>{block}</Col>
       </Row>
       <Row gutter={8}>
-        <Col span={8}>
-          <div className={`${prefixCls}-loading-block`} />
-        </Col>
-        <Col span={15}>
-          <div className={`${prefixCls}-loading-block`} />
-        </Col>
+        <Col span={8}>{block}</Col>
+        <Col span={15}>{block}</Col>
       </Row>
       <Row gutter={8}>
-        <Col span={6}>
-          <div className={`${prefixCls}-loading-block`} />
-        </Col>
-        <Col span={18}>
-          <div className={`${prefixCls}-loading-block`} />
-        </Col>
+        <Col span={6}>{block}</Col>
+        <Col span={18}>{block}</Col>
       </Row>
       <Row gutter={8}>
-        <Col span={13}>
-          <div className={`${prefixCls}-loading-block`} />
-        </Col>
-        <Col span={9}>
-          <div className={`${prefixCls}-loading-block`} />
-        </Col>
+        <Col span={13}>{block}</Col>
+        <Col span={9}>{block}</Col>
       </Row>
       <Row gutter={8}>
-        <Col span={4}>
-          <div className={`${prefixCls}-loading-block`} />
-        </Col>
-        <Col span={3}>
-          <div className={`${prefixCls}-loading-block`} />
-        </Col>
-        <Col span={16}>
-          <div className={`${prefixCls}-loading-block`} />
-        </Col>
+        <Col span={4}>{block}</Col>
+        <Col span={3}>{block}</Col>
+        <Col span={16}>{block}</Col>
       </Row>
     </div>
   );
@@ -201,16 +181,20 @@ const Card: CardInterface = props => {
     ) : null;
   const divProps = omit(others, ['onTabChange']);
   const mergedSize = customizeSize || size;
-  const classString = classNames(prefixCls, className, {
-    [`${prefixCls}-loading`]: loading,
-    [`${prefixCls}-bordered`]: bordered,
-    [`${prefixCls}-hoverable`]: hoverable,
-    [`${prefixCls}-contain-grid`]: isContainGrid(),
-    [`${prefixCls}-contain-tabs`]: tabList && tabList.length,
-    [`${prefixCls}-${mergedSize}`]: mergedSize,
-    [`${prefixCls}-type-${type}`]: !!type,
-    [`${prefixCls}-rtl`]: direction === 'rtl',
-  });
+  const classString = classNames(
+    prefixCls,
+    {
+      [`${prefixCls}-loading`]: loading,
+      [`${prefixCls}-bordered`]: bordered,
+      [`${prefixCls}-hoverable`]: hoverable,
+      [`${prefixCls}-contain-grid`]: isContainGrid(),
+      [`${prefixCls}-contain-tabs`]: tabList && tabList.length,
+      [`${prefixCls}-${mergedSize}`]: mergedSize,
+      [`${prefixCls}-type-${type}`]: !!type,
+      [`${prefixCls}-rtl`]: direction === 'rtl',
+    },
+    className,
+  );
 
   return (
     <div {...divProps} className={classString}>

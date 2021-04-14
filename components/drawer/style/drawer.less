@@ -4,7 +4,7 @@
 @picker-prefix-cls: ~'@{ant-prefix}-picker';
 
 .@{drawer-prefix-cls} {
-  @drawer-header-close-padding: ceil((@drawer-header-close-size - @font-size-lg) / 2);
+  @drawer-header-close-padding: ceil(((@drawer-header-close-size - @font-size-lg) / 2));
 
   position: fixed;
   z-index: @zindex-modal;
@@ -122,15 +122,12 @@
     }
   }
 
-  &.@{drawer-prefix-cls}-open {
-    .@{drawer-prefix-cls} {
-      &-mask {
-        height: 100%;
-        opacity: 1;
-        transition: none;
-        animation: antdDrawerFadeIn @animation-duration-slow @ease-base-out;
-      }
-    }
+  &.@{drawer-prefix-cls}-open .@{drawer-prefix-cls}-mask {
+    height: 100%;
+    opacity: 1;
+    transition: none;
+    animation: antdDrawerFadeIn @animation-duration-slow @ease-base-out;
+    pointer-events: auto;
   }
 
   &-title {
@@ -181,7 +178,7 @@
     .@{drawer-prefix-cls}-header-no-title & {
       margin-right: var(--scroll-bar);
       /* stylelint-disable-next-line function-calc-no-invalid */
-      padding-right: calc(@drawer-header-close-padding - var(--scroll-bar));
+      padding-right: ~'calc(@{drawer-header-close-padding} - var(--scroll-bar))';
     }
   }
 
@@ -218,7 +215,7 @@
 
   &-footer {
     flex-shrink: 0;
-    padding: @drawer-footer-padding-vertical @drawer-footer-padding-vertical;
+    padding: @drawer-footer-padding-vertical @drawer-footer-padding-horizontal;
     border-top: @border-width-base @border-style-base @border-color-split;
   }
 
@@ -232,7 +229,9 @@
     opacity: 0;
     filter: ~'alpha(opacity=45)';
     transition: opacity @animation-duration-slow linear, height 0s ease @animation-duration-slow;
+    pointer-events: none;
   }
+
   &-open {
     &-content {
       box-shadow: @shadow-2;

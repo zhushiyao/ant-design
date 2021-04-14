@@ -5,13 +5,14 @@ import { UnorderedListOutlined } from '@ant-design/icons';
 import { Select, Row, Col, Popover, Button } from 'antd';
 
 import * as utils from '../../utils';
-import { version as antdVersion } from '../../../../../package.json';
+import packageJson from '../../../../../package.json';
 import Logo from './Logo';
 import SearchBox from './SearchBox';
 import More from './More';
 import Navigation from './Navigation';
 import Github from './Github';
 import SiteContext from '../SiteContext';
+import { ping } from '../../utils';
 
 import './index.less';
 
@@ -19,6 +20,8 @@ const RESPONSIVE_XS = 1120;
 const RESPONSIVE_SM = 1200;
 
 const { Option } = Select;
+
+const antdVersion: string = packageJson.version;
 
 let docsearch: any;
 if (typeof window !== 'undefined') {
@@ -51,7 +54,7 @@ export interface HeaderProps {
   intl: {
     locale: string;
   };
-  location: { pathname: string };
+  location: { pathname: string; query: any };
   router: any;
   themeConfig: { docVersions: Record<string, string> };
   changeDirection: (direction: string) => void;
@@ -61,15 +64,19 @@ interface HeaderState {
   menuVisible: boolean;
   windowWidth: number;
   searching: boolean;
+  showTechUIButton: boolean;
 }
 
 class Header extends React.Component<HeaderProps, HeaderState> {
   static contextType = SiteContext;
 
+  pingTimer: NodeJS.Timeout;
+
   state = {
     menuVisible: false,
     windowWidth: 1400,
     searching: false,
+    showTechUIButton: false,
   };
 
   componentDidMount() {
@@ -79,10 +86,19 @@ class Header extends React.Component<HeaderProps, HeaderState> {
 
     window.addEventListener('resize', this.onWindowResize);
     this.onWindowResize();
+
+    this.pingTimer = ping(status => {
+      if (status !== 'timeout' && status !== 'error') {
+        this.setState({
+          showTechUIButton: true,
+        });
+      }
+    });
   }
 
   componentWillUnmount() {
     window.removeEventListener('resize', this.onWindowResize);
+    clearTimeout(this.pingTimer);
   }
 
   onWindowResize = () => {
@@ -146,14 +162,19 @@ class Header extends React.Component<HeaderProps, HeaderState> {
   handleVersionChange = (url: string) => {
     const currentUrl = window.location.href;
     const currentPathname = window.location.pathname;
-    window.location.href = currentUrl
-      .replace(window.location.origin, url)
-      .replace(currentPathname, utils.getLocalizedPathname(currentPathname));
+    if (/overview/.test(currentPathname) && /0?[1-39][0-3]?x/.test(url)) {
+      window.location.href = currentUrl
+        .replace(window.location.origin, url)
+        .replace(/\/components\/overview/, `/docs${/0(9|10)x/.test(url) ? '' : '/react'}/introduce`)
+        .replace(/\/$/, '');
+      return;
+    }
+    window.location.href = currentUrl.replace(window.location.origin, url);
   };
 
   onLangChange = () => {
     const {
-      location: { pathname },
+      location: { pathname, query },
     } = this.props;
     const currentProtocol = `${window.location.protocol}//`;
     const currentHref = window.location.href.substr(currentProtocol.length);
@@ -166,7 +187,7 @@ class Header extends React.Component<HeaderProps, HeaderState> {
       currentProtocol +
       currentHref.replace(
         window.location.pathname,
-        utils.getLocalizedPathname(pathname, !utils.isZhCN(pathname)),
+        utils.getLocalizedPathname(pathname, !utils.isZhCN(pathname), query).pathname,
       );
   };
 
@@ -174,14 +195,17 @@ class Header extends React.Component<HeaderProps, HeaderState> {
     return (
       <SiteContext.Consumer>
         {({ isMobile }) => {
-          const { menuVisible, windowWidth, searching } = this.state;
+          const { menuVisible, windowWidth, searching, showTechUIButton } = this.state;
           const { direction } = this.context;
           const {
             location,
             themeConfig,
             intl: { locale },
           } = this.props;
-          const docVersions = { [antdVersion]: antdVersion, ...themeConfig.docVersions };
+          const docVersions: Record<string, string> = {
+            [antdVersion]: antdVersion,
+            ...themeConfig.docVersions,
+          };
           const versionOptions = Object.keys(docVersions).map(version => (
             <Option value={docVersions[version]} key={version}>
               {version}
@@ -227,6 +251,7 @@ class Header extends React.Component<HeaderProps, HeaderState> {
               location={location}
               responsive={responsive}
               isMobile={isMobile}
+              showTechUIButton={showTechUIButton}
               pathname={pathname}
               directionText={this.getNextDirectionText()}
               onLangChange={this.onLangChange}
@@ -311,7 +336,7 @@ class Header extends React.Component<HeaderProps, HeaderState> {
               )}
               <Row style={{ flexFlow: 'nowrap', height: 64 }}>
                 <Col {...colProps[0]}>
-                  <Logo {...sharedProps} />
+                  <Logo {...sharedProps} location={location} />
                 </Col>
                 <Col {...colProps[1]} className="menu-row">
                   {searchBox}

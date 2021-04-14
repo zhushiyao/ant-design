@@ -1,13 +1,17 @@
+import * as React from 'react';
 import {
   GetRowKey,
   ColumnType as RcColumnType,
   RenderedCell as RcRenderedCell,
   ExpandableConfig,
 } from 'rc-table/lib/interface';
+import { TooltipProps } from '../tooltip';
 import { CheckboxProps } from '../checkbox';
 import { PaginationProps } from '../pagination';
 import { Breakpoint } from '../_util/responsiveObserve';
 import { INTERNAL_SELECTION_ITEM } from './hooks/useSelection';
+import { tuple } from '../_util/type';
+// import { TableAction } from './Table';
 
 export { GetRowKey, ExpandableConfig };
 
@@ -23,8 +27,10 @@ export interface TableLocale {
   filterTitle?: string;
   filterConfirm?: React.ReactNode;
   filterReset?: React.ReactNode;
+  filterEmptyText?: React.ReactNode;
   emptyText?: React.ReactNode | (() => React.ReactNode);
   selectAll?: React.ReactNode;
+  selectNone?: React.ReactNode;
   selectInvert?: React.ReactNode;
   selectionAll?: React.ReactNode;
   sortTitle?: string;
@@ -36,6 +42,9 @@ export interface TableLocale {
 }
 
 export type SortOrder = 'descend' | 'ascend' | null;
+
+const TableActions = tuple('paginate', 'sort', 'filter');
+export type TableAction = typeof TableActions[number];
 
 export type CompareFn<T> = (a: T, b: T, sortOrder?: SortOrder) => number;
 
@@ -59,11 +68,17 @@ export type ColumnTitle<RecordType> =
   | React.ReactNode
   | ((props: ColumnTitleProps<RecordType>) => React.ReactNode);
 
+export type FilterValue = (Key | boolean)[];
+export type FilterKey = Key[] | null;
+export interface FilterConfirmProps {
+  closeDropdown: boolean;
+}
+
 export interface FilterDropdownProps {
   prefixCls: string;
   setSelectedKeys: (selectedKeys: React.Key[]) => void;
   selectedKeys: React.Key[];
-  confirm: () => void;
+  confirm: (param?: FilterConfirmProps) => void;
   clearFilters?: () => void;
   filters?: ColumnFilterItem[];
   visible: boolean;
@@ -71,28 +86,27 @@ export interface FilterDropdownProps {
 
 export interface ColumnType<RecordType> extends RcColumnType<RecordType> {
   title?: ColumnTitle<RecordType>;
-
   // Sorter
   sorter?:
     | boolean
     | CompareFn<RecordType>
     | {
-        compare: CompareFn<RecordType>;
+        compare?: CompareFn<RecordType>;
         /** Config multiple sorter order priority */
-        multiple: number;
+        multiple?: number;
       };
   sortOrder?: SortOrder;
   defaultSortOrder?: SortOrder;
   sortDirections?: SortOrder[];
-  showSorterTooltip?: boolean;
+  showSorterTooltip?: boolean | TooltipProps;
 
   // Filter
   filtered?: boolean;
   filters?: ColumnFilterItem[];
   filterDropdown?: React.ReactNode | ((props: FilterDropdownProps) => React.ReactNode);
   filterMultiple?: boolean;
-  filteredValue?: Key[] | null;
-  defaultFilteredValue?: Key[] | null;
+  filteredValue?: FilterValue | null;
+  defaultFilteredValue?: FilterValue | null;
   filterIcon?: React.ReactNode | ((filtered: boolean) => React.ReactNode);
   onFilter?: (value: string | number | boolean, record: RecordType) => boolean;
   filterDropdownVisible?: boolean;
@@ -120,13 +134,16 @@ export interface SelectionItem {
 export type SelectionSelectFn<T> = (
   record: T,
   selected: boolean,
-  selectedRows: Object[],
+  selectedRows: T[],
   nativeEvent: Event,
 ) => void;
 
 export interface TableRowSelection<T> {
+  /** Keep the selection keys in list even the key not exist in `dataSource` anymore */
+  preserveSelectedRowKeys?: boolean;
   type?: RowSelectionType;
   selectedRowKeys?: Key[];
+  defaultSelectedRowKeys?: Key[];
   onChange?: (selectedRowKeys: Key[], selectedRows: T[]) => void;
   getCheckboxProps?: (record: T) => Partial<Omit<CheckboxProps, 'checked' | 'defaultChecked'>>;
   onSelect?: SelectionSelectFn<T>;
@@ -135,11 +152,13 @@ export interface TableRowSelection<T> {
   onSelectAll?: (selected: boolean, selectedRows: T[], changeRows: T[]) => void;
   /** @deprecated This function is meaningless and should use `onChange` instead */
   onSelectInvert?: (selectedRowKeys: Key[]) => void;
+  onSelectNone?: () => void;
   selections?: INTERNAL_SELECTION_ITEM[] | boolean;
   hideSelectAll?: boolean;
   fixed?: boolean;
   columnWidth?: string | number;
   columnTitle?: string | React.ReactNode;
+  checkStrictly?: boolean;
   renderCell?: (
     value: boolean,
     record: T,
@@ -154,12 +173,13 @@ export type TransformColumns<RecordType> = (
 
 export interface TableCurrentDataSource<RecordType> {
   currentDataSource: RecordType[];
+  action: TableAction;
 }
 
 export interface SorterResult<RecordType> {
   column?: ColumnType<RecordType>;
   order?: SortOrder;
-  field?: Key | Key[];
+  field?: Key | readonly Key[];
   columnKey?: Key;
 }
 

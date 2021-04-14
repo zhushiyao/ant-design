@@ -8,6 +8,7 @@ import { PickerMode } from 'rc-picker/lib/interface';
 import { GenerateConfig } from 'rc-picker/lib/generate/index';
 import enUS from '../locale/en_US';
 import { getPlaceholder } from '../util';
+import devWarning from '../../_util/devWarning';
 import { ConfigContext, ConfigConsumerProps } from '../../config-provider';
 import LocaleReceiver from '../../locale-provider/LocaleReceiver';
 import SizeContext from '../../config-provider/SizeContext';
@@ -35,6 +36,15 @@ export default function generatePicker<DateType>(generateConfig: GenerateConfig<
       context: ConfigConsumerProps;
 
       pickerRef = React.createRef<RCPicker<DateType>>();
+
+      constructor(props: InnerPickerProps) {
+        super(props);
+        devWarning(
+          picker !== 'quarter',
+          displayName!,
+          `DatePicker.${displayName} is legacy usage. Please use DatePicker[picker='${picker}'] directly.`,
+        );
+      }
 
       focus = () => {
         if (this.pickerRef.current) {
@@ -92,6 +102,7 @@ export default function generatePicker<DateType>(generateConfig: GenerateConfig<
             ? getTimeProps({ format, ...this.props, picker: mergedPicker })
             : {}),
         };
+        const rootPrefixCls = getPrefixCls();
 
         return (
           <SizeContext.Consumer>
@@ -107,15 +118,18 @@ export default function generatePicker<DateType>(generateConfig: GenerateConfig<
                   }
                   clearIcon={<CloseCircleFilled />}
                   allowClear
-                  transitionName="slide-up"
+                  transitionName={`${rootPrefixCls}-slide-up`}
                   {...additionalProps}
                   {...restProps}
                   {...additionalOverrideProps}
                   locale={locale!.lang}
-                  className={classNames(className, {
-                    [`${prefixCls}-${mergedSize}`]: mergedSize,
-                    [`${prefixCls}-borderless`]: !bordered,
-                  })}
+                  className={classNames(
+                    {
+                      [`${prefixCls}-${mergedSize}`]: mergedSize,
+                      [`${prefixCls}-borderless`]: !bordered,
+                    },
+                    className,
+                  )}
                   prefixCls={prefixCls}
                   getPopupContainer={customizeGetPopupContainer || getPopupContainer}
                   generateConfig={generateConfig}
@@ -153,6 +167,10 @@ export default function generatePicker<DateType>(generateConfig: GenerateConfig<
   const MonthPicker = getPicker<Omit<PickerDateProps<DateType>, 'picker'>>('month', 'MonthPicker');
   const YearPicker = getPicker<Omit<PickerDateProps<DateType>, 'picker'>>('year', 'YearPicker');
   const TimePicker = getPicker<Omit<PickerTimeProps<DateType>, 'picker'>>('time', 'TimePicker');
+  const QuarterPicker = getPicker<Omit<PickerTimeProps<DateType>, 'picker'>>(
+    'quarter',
+    'QuarterPicker',
+  );
 
-  return { DatePicker, WeekPicker, MonthPicker, YearPicker, TimePicker };
+  return { DatePicker, WeekPicker, MonthPicker, YearPicker, TimePicker, QuarterPicker };
 }

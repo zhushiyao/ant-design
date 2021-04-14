@@ -23,13 +23,7 @@ ReactDOM.render(
     </Button>
     <Button ghost>Default</Button>
     <Button type="dashed" ghost>
-      link
-    </Button>
-    <Button type="text" ghost>
-      Text Button
-    </Button>
-    <Button type="link" ghost>
-      link
+      Dashed
     </Button>
   </div>,
   mountNode,
@@ -38,7 +32,7 @@ ReactDOM.render(
 
 ```css
 .site-button-ghost-wrapper {
-  background: rgb(190, 200, 200);
   padding: 26px 16px 16px;
+  background: rgb(190, 200, 200);
 }
 ```

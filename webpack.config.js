@@ -2,9 +2,8 @@
 // This config is for building dist files
 const getWebpackConfig = require('@ant-design/tools/lib/getWebpackConfig');
 const IgnoreEmitPlugin = require('ignore-emit-webpack-plugin');
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
-const BundleAnalyzerPluginCom = require('@bundle-analyzer/webpack-plugin');
-const EsbuildPlugin = require('esbuild-webpack-plugin').default;
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+const { ESBuildPlugin, ESBuildMinifyPlugin } = require('esbuild-loader');
 const darkVars = require('./scripts/dark-vars');
 const compactVars = require('./scripts/compact-vars');
 
@@ -53,17 +52,6 @@ function injectWarningCondition(config) {
   });
 }
 
-function addBundleAnalyzerPluginCom(config) {
-  if (!process.env.CIRCLECI || process.env.RUN_ENV !== 'PRODUCTION') {
-    return;
-  }
-  config.plugins.push(
-    new BundleAnalyzerPluginCom({
-      token: process.env.BUNDLE_ANALYZER_TOKEN,
-    }),
-  );
-}
-
 function processWebpackThemeConfig(themeConfig, theme, vars) {
   themeConfig.forEach(config => {
     ignoreMomentLocale(config);
@@ -110,8 +98,11 @@ if (process.env.RUN_ENV === 'PRODUCTION') {
     // Reduce non-minified dist files size
     config.optimization.usedExports = true;
     // use esbuild
-    if (process.env.ESBUILD) {
-      config.optimization.minimizer[0] = new EsbuildPlugin();
+    if (process.env.ESBUILD || process.env.CSB_REPO) {
+      config.plugins.push(new ESBuildPlugin());
+      config.optimization.minimizer[0] = new ESBuildMinifyPlugin({
+        target: 'es2015',
+      });
     }
 
     config.plugins.push(
@@ -121,8 +112,6 @@ if (process.env.RUN_ENV === 'PRODUCTION') {
         reportFilename: '../report.html',
       }),
     );
-
-    addBundleAnalyzerPluginCom(config);
   });
 
   processWebpackThemeConfig(webpackDarkConfig, 'dark', darkVars);
