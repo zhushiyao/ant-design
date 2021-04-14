@@ -83,12 +83,12 @@ interface ProviderChildrenProps extends ConfigProviderProps {
   legacyLocale: Locale;
 }
 
-export const defaultPrefixCls = 'ant';
+export const defaultPrefixCls = 'famc';
 let globalPrefixCls: string;
 
 const setGlobalConfig = (params: Pick<ConfigProviderProps, 'prefixCls'>) => {
   if (params.prefixCls !== undefined) {
-    globalPrefixCls = params.prefixCls;
+    globalPrefixCls = defaultPrefixCls;
   }
 };
 

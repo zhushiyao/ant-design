@@ -1,5 +1,5 @@
 {
-  "name": "antd",
+  "name": "famc-antd",
   "version": "4.15.1",
   "description": "An enterprise-class UI design language and React components implementation",
   "title": "Ant Design",
@@ -24,7 +24,7 @@
   },
   "license": "MIT",
   "contributors": [
-    "ant"
+    "antd-famc"
   ],
   "funding": {
     "type": "opencollective",
